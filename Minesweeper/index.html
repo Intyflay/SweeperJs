@@ -1,0 +1,26 @@
+<head>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+</head>
+<body>
+    <template id="tiletemplate">
+        <div class="grid-item"></div>
+    </template>
+
+    <div id="menu">
+        <label for="width">Width</label>
+        <input type="number" name="width" id="width">
+        <label for="height">Height</label>
+        <input type="number" name="height" id="height">
+        <label for="mines">Mines</label>
+        <input type="number" name="mines" id="mines">
+        <!-- cursed ass code ahead -->
+        <button onclick="LoadBoard(+document.getElementById('width').value, +document.getElementById('height').value, +document.getElementById('mines').value)">Play!</button>
+    </div>
+
+    <div id="board">
+        
+        
+    </div>
+    
+</body>
