@@ -1,9 +1,27 @@
+function RandInt(max) {
+    //inclusive
+    return Math.floor(Math.random()*max+1);
+}
 
-function shuffle(arr) {
-    for (i=arr.length;i>0;i--) {
-        
+function Shuffle(a) {
+    for (let i=a.length-1;i>0;i--) {
+        let r = RandInt(i);
+        let e = a[i];
+        a[i] = a[r];
+        a[r] = e;
     }
 }
+
+const CompassDirections = [
+    [0,1],
+    [1,1],
+    [1,0],
+    [1,-1],
+    [0,-1],
+    [-1,-1],
+    [-1,0],
+    [-1,1],
+]
 
 class Tile {
     #isRevealed = false;
@@ -15,6 +33,8 @@ class Tile {
         this.element = element;
         this.x = x;
         this.y = y;
+        element.addEventListener('contextmenu', event => event.preventDefault());
+        element.addEventListener("mousedown", this.onClick.bind(this));
     }
 
     get IsRevealed() {return this.#isRevealed;}
@@ -35,10 +55,6 @@ class Tile {
         value ? this.element.classList.add("Mine"): this.element.classList.remove("Mine");
     }
 
-    onLoad() {
-        
-    }
-
     clearZeroTiles() {
         neighbours.forEach(element => {
             element.clearZeroTiles
@@ -56,7 +72,7 @@ class Tile {
                 break;
             case 2: //right mouse
                 if (this.#isRevealed) {
-                    break
+                    break;
                 }
                 
                 this.IsFlagged = !this.#isFlagged;
@@ -68,10 +84,12 @@ class Tile {
 }
 
 function LoadBoard(width,height,mineAmmount) {
-    let tiles = Array.from(Array(height), () => new Array(width))
+    let tiles = Array.from(Array(height), () => new Array(width));
+    let mines = new Array(width*height).fill(false).fill(true, 0, mineAmmount);
+    Shuffle(mines);
+    console.log(mines);
 
-
-    let board = document.getElementById("board")
+    let board = document.getElementById("board");
     const tileTemplate = document.getElementById("tiletemplate");
     let root = document.querySelector(":root");
     
@@ -81,24 +99,25 @@ function LoadBoard(width,height,mineAmmount) {
     root.style.setProperty("--boardWidth",width);
     root.style.setProperty("--boardHeight",height);
 
+    
+
     for (let i = 0; i < width*height; i++) {
         let element = tileTemplate.content.firstElementChild.cloneNode(true);
         board.appendChild(element);
         
         let x = i % (width);
         let y = Math.floor(i/width);
-        console.log(x,y)
         
         let tile = new Tile(element,x,y)
         tiles[y][x] = tile;
-        
-        
-        element.addEventListener('contextmenu', event => event.preventDefault());
-        element.addEventListener("mousedown", tile.onClick.bind(tile));
     }
     
+    tiles.flat().map((element,index)=>{
+        element.IsMine = mines[index];
+    })
     
     
+
     console.log(tiles);
     document.getElementById("menu").style.display = "none";
 
@@ -107,4 +126,6 @@ function LoadBoard(width,height,mineAmmount) {
 // document.addEventListener("DOMContentLoaded", ()=>{
 //     //let cells = document.querySelectorAll(".grid-item");
 // });
+
+
 
