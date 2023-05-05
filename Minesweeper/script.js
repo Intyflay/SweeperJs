@@ -62,7 +62,7 @@ class Tile {
     }
 
     onClick(ev) {
-        // ev.shitKey to detect for shift :)
+        // ev.shiftKey to detect for shift :)
         switch(ev.button) {
             case 0: //left mouse
                 if (this.#isFlagged || this.#isRevealed) {
@@ -87,7 +87,6 @@ function LoadBoard(width,height,mineAmmount) {
     let tiles = Array.from(Array(height), () => new Array(width));
     let mines = new Array(width*height).fill(false).fill(true, 0, mineAmmount);
     Shuffle(mines);
-    console.log(mines);
 
     let board = document.getElementById("board");
     const tileTemplate = document.getElementById("tiletemplate");
@@ -117,7 +116,7 @@ function LoadBoard(width,height,mineAmmount) {
     })
     
     
-
+    
     console.log(tiles);
     document.getElementById("menu").style.display = "none";
 
