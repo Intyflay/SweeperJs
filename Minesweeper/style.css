@@ -1,6 +1,7 @@
 :root {
     box-sizing: border-box;
     font-family: monospace;
+    font-size: 100%;
     color: white;
 
     --boardWidth: 0;
@@ -15,6 +16,7 @@ body {
 }
 
 #menu {
+    border-radius: 0.5em;
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -38,8 +40,10 @@ body {
     grid-template-columns:repeat(var(--boardWidth),1fr);
 }
 
+
 .grid-item {
     transition: background-color 0.2s;
+    transition: font-size 0.4s;
     text-align: center;
     line-height: 100px;
     user-select: none;
@@ -47,18 +51,22 @@ body {
     height: 100px;
     margin: 2px;
     background-color: coral;
+    font-size: 0em;
+    
 }
 
 .Flagged {
-    background-color: palegreen;
+    background-color: rgb(64, 197, 124);
 }
 
 .Revealed {
     background-color: rgb(196, 96, 60);
+    font-size: 1em;
 }
 
-.Mine {
+.Mine.Revealed {
     background-color: orangered;
+    font-size: 0em;
 }
 
 
