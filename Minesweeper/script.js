@@ -27,7 +27,7 @@ class Tile {
     #isRevealed = false;
     #isFlagged = false;
     #isMine = false;
-    neighbours = [];
+    #neighbours = [];
 
     constructor(element,x,y) {
         this.element = element;
@@ -100,7 +100,7 @@ function LoadBoard(width,height,mineAmmount) {
     root.style.setProperty("--boardHeight",height);
 
     
-
+    //initialise
     for (let i = 0; i < width*height; i++) {
         let element = tileTemplate.content.firstElementChild.cloneNode(true);
         board.appendChild(element);
@@ -114,6 +114,7 @@ function LoadBoard(width,height,mineAmmount) {
     
     tiles.flat().map((element,index)=>{
         element.IsMine = mines[index];
+        
     })
     
     
