@@ -37,6 +37,7 @@ class Tile {
         element.addEventListener("mousedown", this.onClick.bind(this));
     }
 
+    
     get IsRevealed() {return this.#isRevealed;}
     set IsRevealed(value) {
         this.#isRevealed = value;
@@ -111,9 +112,29 @@ function LoadBoard(width,height,mineAmmount) {
         tiles[y][x] = tile;
     }
     
-    tiles.flat().map((element,index)=>{
-        element.IsMine = mines[index];
+    tiles.flat().map((element,i)=>{
+        element.IsMine = mines[i];
         
+        console.log(element)
+        CompassDirections.forEach(vector=>{
+            let ix = i % (width);
+            let iy = Math.floor(i/width);
+
+            let vx = vector[0];
+            let vy = vector[1];
+
+            let x = ix + vx
+            let y = iy + vy
+            
+            
+            if ((x >= 0 && x < width) && (y >= 0 && y < height)) {
+                tiles[y][x]
+            }
+            
+        })
+
+
+
     })
     
     
