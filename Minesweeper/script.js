@@ -24,6 +24,7 @@ const CompassDirections = [
 ]
 
 class Tile {
+    #heat = 0;
     #isRevealed = false;
     #isFlagged = false;
     #isMine = false;
@@ -37,7 +38,15 @@ class Tile {
         element.addEventListener("mousedown", this.onClick.bind(this));
     }
 
-    
+    get Neighbours() {return this.#neighbours}
+    AddNeighbour(tile) {
+        this.#neighbours.push(tile)
+        if (tile.IsMine) {
+            this.#heat++;
+            this.element.innerHTML++;
+        }
+    }
+
     get IsRevealed() {return this.#isRevealed;}
     set IsRevealed(value) {
         this.#isRevealed = value;
@@ -57,9 +66,20 @@ class Tile {
     }
 
     clearZeroTiles() {
-        neighbours.forEach(element => {
-            element.clearZeroTiles
-        });
+        if (this.#isFlagged) {return;}
+
+        if (this.#heat != 0 || this.#isRevealed) {
+            this.IsRevealed = true;
+            return;
+        }
+        
+        this.IsRevealed = true;
+
+        this.#neighbours.forEach(neighbour =>{
+            neighbour.clearZeroTiles();
+            // setTimeout(neighbour.clearZeroTiles.bind(neighbour),100)
+        })
+        
     }
 
     onClick(ev) {
@@ -69,7 +89,7 @@ class Tile {
                 if (this.#isFlagged || this.#isRevealed) {
                     break;
                 }
-                this.IsRevealed = !this.#isRevealed;
+                this.clearZeroTiles()
                 break;
             case 2: //right mouse
                 if (this.#isRevealed) {
@@ -114,32 +134,22 @@ function LoadBoard(width,height,mineAmmount) {
     
     tiles.flat().map((element,i)=>{
         element.IsMine = mines[i];
-        
-        console.log(element)
-        CompassDirections.forEach(vector=>{
-            let ix = i % (width);
-            let iy = Math.floor(i/width);
-
-            let vx = vector[0];
-            let vy = vector[1];
-
-            let x = ix + vx
-            let y = iy + vy
-            
-            
-            if ((x >= 0 && x < width) && (y >= 0 && y < height)) {
-                tiles[y][x]
-            }
-            
-        })
-
-
-
     })
     
+    tiles.flat().map((element,i)=>{
+        CompassDirections.forEach(vector=>{
+            let x = i % (width) + vector[0];
+            let y = Math.floor(i/width) + vector[1];
+            
+            if ((x >= 0 && x < width) && (y >= 0 && y < height)) {
+                element.AddNeighbour(tiles[y][x]);
+            }
+        })
+    })
+
     
     
-    console.log(tiles);
+    
     document.getElementById("menu").style.display = "none";
 
 }
