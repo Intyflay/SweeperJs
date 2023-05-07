@@ -107,6 +107,7 @@ class Tile {
 function LoadBoard(width,height,mineAmmount) {
     let tiles = Array.from(Array(height), () => new Array(width));
     let mines = new Array(width*height).fill(false).fill(true, 0, mineAmmount);
+    let flags = mineAmmount;
     Shuffle(mines);
 
     let board = document.getElementById("board");
@@ -114,12 +115,9 @@ function LoadBoard(width,height,mineAmmount) {
     let root = document.querySelector(":root");
     
     board.innerHTML = "";
-
-
     root.style.setProperty("--boardWidth",width);
     root.style.setProperty("--boardHeight",height);
 
-    
     //initialise
     for (let i = 0; i < width*height; i++) {
         let element = tileTemplate.content.firstElementChild.cloneNode(true);
