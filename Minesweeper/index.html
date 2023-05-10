@@ -1,6 +1,7 @@
 <head>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <script src="Tile.mjs" type="module"></script>
+    <script src="script.js" type="module"></script>
 </head>
 <body>
     <template id="tiletemplate">
@@ -15,7 +16,7 @@
         <label for="mines">Mines</label>
         <input type="number" name="mines" id="mines">
         <!-- cursed ass code ahead -->
-        <button onclick="LoadBoard(+document.getElementById('width').value, +document.getElementById('height').value, +document.getElementById('mines').value)">Play!</button>
+        <button id="playbutton">Play!</button>
     </div>
 
 
