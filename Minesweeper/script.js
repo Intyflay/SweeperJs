@@ -8,10 +8,14 @@ function RandInt(max) {
 function Shuffle(a) {
     for (let i=a.length-1;i>0;i--) {
         let r = RandInt(i);
-        let e = a[i];
-        a[i] = a[r];
-        a[r] = e;
+        [a[i],a[r]] = [a[r],a[i]]
     }
+}
+
+function WrapIndex(index,width) {
+    let x = index % (width);
+    let y = Math.floor(index/width);
+    return [x,y];
 }
 
 const CompassDirections = [
@@ -44,10 +48,11 @@ function LoadBoard(width,height,mineAmmount) {
         let element = tileTemplate.content.firstElementChild.cloneNode(true);
         board.appendChild(element);
         
-        let x = i % (width);
-        let y = Math.floor(i/width);
+        let [x,y] = WrapIndex(i,width)
         
         let tile = new Tile(element,x,y)
+        element.addEventListener('contextmenu', event => event.preventDefault());
+        element.addEventListener("mousedown", tile.onClick.bind(tile));
         tiles[y][x] = tile;
     }
     
@@ -57,6 +62,7 @@ function LoadBoard(width,height,mineAmmount) {
     
     tiles.flat().map((element,i)=>{
         CompassDirections.forEach(vector=>{
+            
             let x = i % (width) + vector[0];
             let y = Math.floor(i/width) + vector[1];
             
