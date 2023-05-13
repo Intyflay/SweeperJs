@@ -9,8 +9,7 @@ export default class Tile {
         this.element = element;
         this.x = x;
         this.y = y;
-        element.addEventListener('contextmenu', event => event.preventDefault());
-        element.addEventListener("mousedown", this.onClick.bind(this));
+        
     }
 
     get Neighbours() {return this.#neighbours}
